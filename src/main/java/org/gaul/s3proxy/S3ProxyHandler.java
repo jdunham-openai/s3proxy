@@ -1493,12 +1493,18 @@ public class S3ProxyHandler {
                         isListV2 ? "NextContinuationToken" : "NextMarker",
                         encodeBlob(encodingType, nextMarker));
                 if (Quirks.OPAQUE_MARKERS.contains(blobStoreType)) {
+                    logger.info("in a quirk marker =======");
                     StorageMetadata sm = Streams.findLast(
                             set.stream()).orElse(null);
                     if (sm != null) {
+                        String lastKey = sm.getName();
+                        logger.info("sm is not null ======");
+                        logger.info("sm is not null ====== {}", encodeBlob(encodingType, lastKey));
+                        logger.info("sm is not null ====== {}", nextMarker);
+                        logger.info("sm is not null ====== {}", lastKey);
                         lastKeyToMarker.put(Map.entry(
                                 containerName,
-                                encodeBlob(encodingType, nextMarker)),
+                                encodeBlob(encodingType, lastKey)),
                                 nextMarker);
                     }
                 }
